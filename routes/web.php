@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\RepliesController;
+use App\Http\Controllers\ThreadsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,14 +16,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('threads.index');
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/threads', [ThreadController::class, 'index']);
-Route::get('/threads/{thread}', [ThreadController::class, 'show']);
+Route::get('/threads', [ThreadsController::class, 'index'])->name('threads.index');
+Route::get('/threads/{thread}', [ThreadsController::class, 'show'])->name('threads.show');
+Route::post('threads/{thread}/replies', [RepliesController::class, 'store'])->middleware('auth');
 
 require __DIR__ . '/auth.php';

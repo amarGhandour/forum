@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ThreadStoreRequest;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 
@@ -17,13 +18,17 @@ class ThreadsController extends Controller
 
     public function create()
     {
-
+        return view('threads.create');
     }
 
 
-    public function store(Request $request)
+    public function store(ThreadStoreRequest $request)
     {
-        //
+        $thread = Thread::create(
+            $request->validated() + ['user_id' => auth()->id()]
+        );
+
+        return redirect($thread->path())->with('success', 'Thread has been created.');
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\Reply;
 use App\Models\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -46,6 +47,23 @@ class ReadThreadTest extends TestCase
         $this->get($thread->path())
             ->assertSee($reply->body)
             ->assertSee($reply->owner->name);
+    }
+
+    public function test_user_can_filter_threads_according_to_categories()
+    {
+        $category = Category::factory()->create([
+            'slug' => 'php',
+        ]);
+
+        $threadToSee = Thread::factory()->create([
+            'category_id' => $category->id,
+        ]);
+
+        $threadNotToSee = Thread::factory()->create();
+
+        $this->get('threads/php')
+            ->assertSee($threadToSee->title)
+            ->assertDontSee($threadNotToSee->title);
     }
 
 }

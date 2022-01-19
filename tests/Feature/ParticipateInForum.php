@@ -32,4 +32,16 @@ class ParticipateInForum extends TestCase
         $this->post("threads/some_category/1/replies", [])
             ->assertRedirect(route('login'));
     }
+
+    public function test_a_reply_requires_a_body()
+    {
+
+        $reply = Reply::factory()->make([
+            'body' => null
+        ]);
+
+        $this->actingAs(User::factory()->create())
+            ->post("{$reply->thread->path()}/replies", $reply->toArray())
+            ->assertSessionHasErrors();
+    }
 }

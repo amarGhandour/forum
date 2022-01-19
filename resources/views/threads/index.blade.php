@@ -12,6 +12,9 @@
                     <p><a href="{{ $thread->path() }}">{{ $thread->title }}</a></p>
                 </div>
             @endforeach
+            <div class="mt-6">
+                {{ $threads->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>

@@ -37,8 +37,42 @@ class CreateThreadTest extends TestCase
         $this->get(route('threads.create'))
             ->assertRedirect(route('login'));
 
-        $this->post('/threads', [])
+        $this->post(route('threads.store'), [])
             ->assertRedirect(route('login'));
     }
+
+    public function test_a_thread_requires_a_title()
+    {
+
+        $this->publishThread(['body' => null])->assertSessionHasErrors();
+
+    }
+
+    public function test_a_thread_requires_a_body()
+    {
+
+        $this->publishThread(['body' => null])->assertSessionHasErrors();
+    }
+
+    public function test_a_thread_requires_a_category_id()
+    {
+
+        $this->publishThread(['category_id' => null])->assertSessionHasErrors();
+    }
+
+    public function test_a_category_id_must_exits_in_database()
+    {
+
+        $this->publishThread(['category_id' => 999999])->assertSessionHasErrors();
+    }
+
+    public function publishThread($attributes = [])
+    {
+
+        $thread = Thread::factory()->make($attributes);
+
+        return $this->actingAs(User::factory()->create())->post(route('threads.store'), $thread->toArray());
+    }
+
 
 }

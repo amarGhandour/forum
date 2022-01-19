@@ -28,6 +28,6 @@ Route::get('/threads/create', [ThreadsController::class, 'create'])->name('threa
 Route::get('/threads/{category:slug}', [ThreadsController::class, 'index']);
 Route::post('/threads', [ThreadsController::class, 'store'])->name('threads.store')->middleware('auth');
 Route::get('/threads/{category:slug}/{thread:id}', [ThreadsController::class, 'show'])->name('threads.show');
-Route::post('/threads/{category:slug}/{thread:id}/replies', [RepliesController::class, 'store'])->middleware('auth');
+Route::post('/threads/{category:slug}/{thread:id}/replies', [RepliesController::class, 'store'])->middleware('auth')->name('replies.store');
 
 require __DIR__ . '/auth.php';

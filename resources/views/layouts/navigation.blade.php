@@ -36,7 +36,7 @@
 
                             <x-slot name="content">
                                 <!-- Authentication -->
-                                @foreach(\App\Models\Category::all() as $category)
+                                @foreach($categories as $category)
                                     <x-dropdown-link href="/threads/{{$category->slug}}">
                                         {{ $category->name }}
                                     </x-dropdown-link>
@@ -44,6 +44,9 @@
                             </x-slot>
                         </x-dropdown>
                     </div>
+                    <x-nav-link :href="route('threads.create')" :active="request()->routeIs('threads.create')">
+                        {{ __('New Thread') }}
+                    </x-nav-link>
 
                 </div>
             </div>

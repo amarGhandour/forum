@@ -34,7 +34,7 @@
 
                         <option>Choose category</option>
 
-                        @foreach(\App\Models\Category::all() as $category)
+                        @foreach($categories as $category)
                             <option value="{{ $category->id }}"> {{ $category->name }}</option>
                         @endforeach
 

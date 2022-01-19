@@ -32,9 +32,9 @@ class ThreadsController extends Controller
     }
 
 
-    public function show(Thread $thread)
+    public function show($categoryId, Thread $thread)
     {
-        return view('threads.show', compact('thread'));
+        return view('threads.show', compact(['thread']));
     }
 
     /**

@@ -26,7 +26,7 @@ Route::get('/dashboard', function () {
 Route::get('/threads', [ThreadsController::class, 'index'])->name('threads.index');
 Route::post('/threads', [ThreadsController::class, 'store'])->name('threads.store')->middleware('auth');
 Route::get('/threads/create', [ThreadsController::class, 'create'])->name('threads.create')->middleware('auth');
-Route::get('/threads/{thread}', [ThreadsController::class, 'show'])->name('threads.show');
-Route::post('threads/{thread}/replies', [RepliesController::class, 'store'])->middleware('auth');
+Route::get('/threads/{category:slug}/{thread:id}', [ThreadsController::class, 'show'])->name('threads.show');
+Route::post('/threads/{category:slug}/{thread:id}/replies', [RepliesController::class, 'store'])->middleware('auth');
 
 require __DIR__ . '/auth.php';

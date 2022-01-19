@@ -29,10 +29,7 @@ class ParticipateInForum extends TestCase
 
     public function test_an_unauthenticated_user_may_not_participate_in_forum_threads()
     {
-        $this->withoutExceptionHandling();
-
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-
-        $this->post("threads/1/replies", []);
+        $this->post("threads/some_category/1/replies", [])
+            ->assertRedirect(route('login'));
     }
 }

@@ -23,6 +23,7 @@ class ReadThreadTest extends TestCase
 
     public function test_user_can_view_specific_thread()
     {
+        $this->withoutExceptionHandling();
         $thread = Thread::factory()->create();
 
         $this->get($thread->path())

@@ -14,7 +14,7 @@ class Thread extends Model
     public function path()
     {
 
-        return "threads/$this->id";
+        return "/threads/{$this->category->slug}/$this->id";
     }
 
     public function replies()
@@ -30,6 +30,11 @@ class Thread extends Model
     public function addReply($reply)
     {
         $this->replies()->create($reply);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
 }

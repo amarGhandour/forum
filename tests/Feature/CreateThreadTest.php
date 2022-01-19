@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,13 +17,16 @@ class CreateThreadTest extends TestCase
     {
 
         $user = User::factory()->create();
-        $thread = Thread::factory()->make();
+        $category = Category::factory()->create();
+
+        $thread = Thread::factory()->make(['category_id' => $category->id]);
 
         $this->actingAs($user)
-            ->post('/threads', $thread->toArray())
-            ->assertRedirect("/threads/1");
+            ->post('/threads', $thread->toArray());
 
-        $this->get("/threads/1")
+        $thread = Thread::where('title', $thread->title)->first();
+
+        $this->get($thread->path())
             ->assertSee($thread->body)
             ->assertSee($thread->title)
             ->assertSee($user->name);

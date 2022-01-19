@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ThreadStoreRequest extends FormRequest
 {
@@ -25,7 +26,8 @@ class ThreadStoreRequest extends FormRequest
     {
         return [
             'title' => ['required'],
-            'body' => ['required']
+            'body' => ['required'],
+            'category_id' => ['required', Rule::exists('categories', 'id')]
         ];
     }
 }

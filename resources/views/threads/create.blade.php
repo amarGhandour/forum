@@ -28,6 +28,20 @@
                     >{{ old('body') }}</x-form.text-area>
                 </div>
 
+                <div class="mt-4">
+                    <x-label for="category_id" :value="__('Category')"/>
+                    <x-form.select-menu required name="category_id" id="category_id" class="mt-2">
+
+                        <option>Choose category</option>
+
+                        @foreach(\App\Models\Category::all() as $category)
+                            <option value="{{ $category->id }}"> {{ $category->name }}</option>
+                        @endforeach
+
+                    </x-form.select-menu>
+
+                </div>
+
 
                 <div class="flex items-center justify-end mt-4">
                     <x-button class="ml-3">

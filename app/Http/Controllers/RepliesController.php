@@ -8,7 +8,7 @@ use App\Models\Thread;
 class RepliesController extends Controller
 {
 
-    public function store(ReplyStoreRequest $request, Thread $thread)
+    public function store(ReplyStoreRequest $request, $categorySlug, Thread $thread)
     {
         $thread->addReply(
             $request->validated() + ['user_id' => auth()->id()]

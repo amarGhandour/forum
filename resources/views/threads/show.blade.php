@@ -22,7 +22,7 @@
 
             @auth
                 <div class="mt-6">
-                    <form action="/{{$thread->path()}}/replies" method="POST">
+                    <form action="{{$thread->path()}}/replies" method="POST">
                         @csrf
 
                         <x-form.text-area name="body" class="w-full">{{ old('body') }}</x-form.text-area>
@@ -34,7 +34,8 @@
             @endauth
 
             @guest
-                <p><a href="{{ route('login') }}">Login </a> or <a href="{{ route('register') }}">register</a> to be
+                <p class="text-center mt-4"><a href="{{ route('login') }}" class="text-indigo-600">Login </a> or <a
+                        href="{{ route('register') }}" class="text-indigo-600">register</a> to be
                     able to reply</p>
             @endguest
 

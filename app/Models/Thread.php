@@ -44,6 +44,12 @@ class Thread extends Model
                 $query->where('slug', $category);
             });
         });
+
+        $query->when($filters['creator'], function ($query, $creator) {
+            $query->whereHas('creator', function ($query) use ($creator) {
+                $query->where('name', $creator);
+            });
+        });
     }
 
 }

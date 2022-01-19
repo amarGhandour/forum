@@ -12,7 +12,9 @@ class ThreadsController extends Controller
     public function index($categorySlug = null)
     {
 
-        $threads = Thread::latest()->filter(['category' => $categorySlug])->simplePaginate(10);
+        $threads = Thread::latest()->
+        filter(['category' => $categorySlug, 'creator' => \request('creator')])
+            ->simplePaginate(10);
 
         return view('threads.index', compact('threads'));
     }

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Reply;
 use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -65,5 +66,23 @@ class ReadThreadTest extends TestCase
             ->assertSee($threadToSee->title)
             ->assertDontSee($threadNotToSee->title);
     }
+
+    public function test_user_can_filter_threads_according_to_creators()
+    {
+
+        $user = User::factory()->create();
+
+        $threadToSee = Thread::factory()->create([
+            'user_id' => $user->id
+        ]);
+
+        $threadNotToSee = Thread::factory()->create();
+
+        $this->get("/threads?creator=$user->name")
+            ->assertSee($threadToSee->title)
+            ->assertDontSee($threadNotToSee->title);
+
+    }
+
 
 }

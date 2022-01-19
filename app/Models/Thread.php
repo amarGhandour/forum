@@ -37,4 +37,13 @@ class Thread extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['category'], function ($query, $category) {
+            $query->whereHas('category', function ($query) use ($category) {
+                $query->where('slug', $category);
+            });
+        });
+    }
+
 }

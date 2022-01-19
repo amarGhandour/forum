@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ThreadStoreRequest;
-use App\Models\Category;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 
@@ -12,11 +11,8 @@ class ThreadsController extends Controller
 
     public function index($categorySlug = null)
     {
-        if ($categorySlug) {
-            $id = Category::where('slug', $categorySlug)->first()->id;
-            $threads = Thread::where('category_id', $id)->latest()->simplePaginate();
-        } else
-            $threads = Thread::latest()->simplePaginate();
+
+        $threads = Thread::latest()->filter(['category' => $categorySlug])->simplePaginate(10);
 
         return view('threads.index', compact('threads'));
     }

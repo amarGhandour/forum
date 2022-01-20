@@ -52,6 +52,7 @@ class ReadThreadTest extends TestCase
 
     public function test_user_can_filter_threads_according_to_categories()
     {
+        $this->withoutExceptionHandling();
         $category = Category::factory()->create([
             'slug' => 'php',
         ]);
@@ -69,6 +70,7 @@ class ReadThreadTest extends TestCase
 
     public function test_user_can_filter_threads_according_to_creators()
     {
+        $this->withoutExceptionHandling();
 
         $user = User::factory()->create();
 

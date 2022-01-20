@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\ThreadsFilter;
 use App\Http\Requests\ThreadStoreRequest;
+use App\Models\Category;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 
 class ThreadsController extends Controller
 {
 
-    public function index($categorySlug = null)
+    public function index(Category $category, ThreadsFilter $filters)
     {
-
-        $threads = Thread::latest()->
-        filter(['category' => $categorySlug, 'creator' => \request('creator')])
-            ->simplePaginate(10);
+        $threads = $this->getThreads($filters, $category);
 
         return view('threads.index', compact('threads'));
     }
@@ -72,5 +71,22 @@ class ThreadsController extends Controller
     public function destroy(Thread $thread)
     {
         //
+    }
+
+    /**
+     * @param ThreadsFilter $filters
+     * @param Category $category
+     * @return mixed
+     */
+    public function getThreads(ThreadsFilter $filters, Category $category)
+    {
+        $threads = Thread::latest()->filter($filters);
+
+        if ($category->exists) {
+            $threads->where('category_id', $category->id);
+        }
+
+        $threads = $threads->simplePaginate(10);
+        return $threads;
     }
 }

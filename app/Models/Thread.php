@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Filters\ThreadsFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,19 +38,10 @@ class Thread extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function scopeFilter($query, array $filters)
+    public function scopeFilter($query, ThreadsFilter $filters)
     {
-        $query->when($filters['category'], function ($query, $category) {
-            $query->whereHas('category', function ($query) use ($category) {
-                $query->where('slug', $category);
-            });
-        });
 
-        $query->when($filters['creator'], function ($query, $creator) {
-            $query->whereHas('creator', function ($query) use ($creator) {
-                $query->where('name', $creator);
-            });
-        });
+        return $filters->apply($query);
     }
 
 }

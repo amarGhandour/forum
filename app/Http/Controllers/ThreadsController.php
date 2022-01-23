@@ -36,7 +36,10 @@ class ThreadsController extends Controller
 
     public function show($categoryId, Thread $thread)
     {
-        return view('threads.show', compact(['thread']));
+        return view('threads.show', [
+            'thread' => $thread,
+            'replies' => $thread->replies()->paginate(5),
+        ]);
     }
 
     /**

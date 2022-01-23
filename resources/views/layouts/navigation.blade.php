@@ -41,6 +41,10 @@
                                     </x-dropdown-link>
                                 @endauth
 
+                                <x-dropdown-link href="/threads?popular=1">
+                                    Popular Threads All Times
+                                </x-dropdown-link>
+
                             </x-slot>
                         </x-dropdown>
                     </div>

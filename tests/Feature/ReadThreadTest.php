@@ -87,4 +87,28 @@ class ReadThreadTest extends TestCase
     }
 
 
+    public function test_user_can_filter_threads_by_popularity()
+    {
+
+        $thread = Thread::factory()->create();
+
+        $threadWithTwoReplies = Thread::factory()->create();
+
+        Reply::factory(2)->create([
+            'thread_id' => $threadWithTwoReplies->id
+        ]);
+
+        $threadWithOneReply = Thread::factory()->create();
+        Reply::factory()->create([
+            'thread_id' => $threadWithOneReply->id
+        ]);
+
+        $this->get('/threads?popular=1')->assertSeeTextInOrder([
+            $threadWithTwoReplies->title,
+            $threadWithOneReply->title,
+            $thread->title,
+        ]);
+    }
+
+
 }

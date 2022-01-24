@@ -76,14 +76,9 @@ class ThreadsController extends Controller
         //
     }
 
-    /**
-     * @param ThreadsFilter $filters
-     * @param Category $category
-     * @return mixed
-     */
     public function getThreads(ThreadsFilter $filters, Category $category)
     {
-        $threads = Thread::latest()->filter($filters);
+        $threads = Thread::with('category')->latest()->filter($filters);
 
         if ($category->exists) {
             $threads->where('category_id', $category->id);

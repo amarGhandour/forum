@@ -11,6 +11,8 @@ class Reply extends Model
 
     protected $guarded = [];
 
+    protected $with = ['owner', 'likes'];
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -19,6 +21,11 @@ class Reply extends Model
     public function thread()
     {
         return $this->belongsTo(Thread::class);
+    }
+
+    public function getLikesCountAttribute()
+    {
+        return $this->likes->count();
     }
 
     public function likes()
@@ -33,6 +40,11 @@ class Reply extends Model
                 'user_id' => auth()->id()
             ]);
         }
+    }
+
+    public function isLiked()
+    {
+        return !!$this->likes->where('user_id', auth()->id())->count();
     }
 
 }

@@ -12,6 +12,8 @@ class Thread extends Model
 
     protected $guarded = [];
 
+    protected $with = ['replies', 'category'];
+
     public function path()
     {
 

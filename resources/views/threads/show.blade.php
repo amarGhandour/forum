@@ -11,8 +11,8 @@
             <p>created at: {{ $thread->created_at->diffForHumans() }}</p>
             <p>Number of
                 comments: {{ $thread->replies_count }}  {{ Str::plural('comment', $thread->replies_count ) }}</p>
-            <p>created by: <a href="#"> {{ $thread->creator->name}}</a>
-            </p>
+
+            <p>created by: <a href="#"> {{ $thread->creator->name}}</a></p>
 
         </aside>
 
@@ -31,9 +31,11 @@
                             </p>
 
                             @auth
-                                <form action="/replies/{{$reply->id}}/likes" method="post">
+                                <form id="like-form" action="/replies/{{$reply->id}}/likes" method="post">
                                     @csrf
-                                    <button type="submit"><strong>Like</strong></button>
+                                    <button type="submit"
+                                            {{ $reply->isLiked() ? 'disabled' : '' }}  value="{{ $reply->id }}"><strong>Like</strong>
+                                    </button>
                                 </form>
                             @endauth
                         </div>
@@ -41,7 +43,7 @@
                         <p> {{ $reply->body  }}</p>
 
                         <div class="mt-4">
-                            {{ $reply->likes()->count() }}  {{ Str::plural('like',$reply->likes()->count()) }}
+                            {{ $reply->likes_count }}  {{ Str::plural('like',$reply->likes_count) }}
                         </div>
                     </div>
                 @endforeach

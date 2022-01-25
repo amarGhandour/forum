@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LikesController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepliesController;
 use App\Http\Controllers\ThreadsController;
 use Illuminate\Support\Facades\Route;
@@ -32,5 +33,7 @@ Route::get('/threads/{category:slug}/{thread:id}', [ThreadsController::class, 's
 Route::post('/threads/{category:slug}/{thread:id}/replies', [RepliesController::class, 'store'])->middleware('auth')->name('replies.store');
 
 Route::post('/replies/{reply:id}/likes', [LikesController::class, 'store'])->middleware('auth');
+
+Route::get('/profiles/{user:name}', [ProfileController::class, 'show']);
 
 require __DIR__ . '/auth.php';

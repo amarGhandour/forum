@@ -12,7 +12,7 @@
             <p>Number of
                 comments: {{ $thread->replies_count }}  {{ Str::plural('comment', $thread->replies_count ) }}</p>
 
-            <p>created by: <a href="#"> {{ $thread->creator->name}}</a></p>
+            <p>created by: <a href="/profiles/{{$thread->creator->name}}"> {{ $thread->creator->name}}</a></p>
 
         </aside>
 

@@ -54,8 +54,13 @@ class Thread extends Model
     protected static function boot()
     {
         parent::boot();
+
         static::addGlobalScope('replyCount', function ($query) {
             $query->withCount('replies');
+        });
+
+        static::deleting(function ($thread) {
+            $thread->replies()->delete();
         });
     }
 

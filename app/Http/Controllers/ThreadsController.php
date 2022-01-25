@@ -19,11 +19,21 @@ class ThreadsController extends Controller
         return view('threads.index', compact('threads'));
     }
 
+    public function getThreads(ThreadsFilter $filters, Category $category)
+    {
+        $threads = Thread::latest()->filter($filters);
+
+        if ($category->exists) {
+            $threads->where('category_id', $category->id);
+        }
+
+        return $threads->simplePaginate(10)->withQueryString();
+    }
+
     public function create()
     {
         return view('threads.create');
     }
-
 
     public function store(ThreadStoreRequest $request)
     {
@@ -33,7 +43,6 @@ class ThreadsController extends Controller
 
         return redirect($thread->path())->with('success', 'Thread has been created.');
     }
-
 
     public function show($categoryId, Thread $thread)
     {
@@ -66,25 +75,16 @@ class ThreadsController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Thread $thread
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Thread $thread)
     {
-        //
-    }
+        $this->authorize('update', $thread);
 
-    public function getThreads(ThreadsFilter $filters, Category $category)
-    {
-        $threads = Thread::latest()->filter($filters);
+        $thread->delete();
 
-        if ($category->exists) {
-            $threads->where('category_id', $category->id);
+        if (request()->wantsJson()) {
+            return response(204, []);
         }
 
-        return $threads->simplePaginate(10);
+        return redirect('/threads');
     }
 }

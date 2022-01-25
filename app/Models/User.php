@@ -43,6 +43,11 @@ class User extends Authenticatable
 
     public function path()
     {
-        return "/users/$this->id";
+        return "/profiles/$this->name";
+    }
+
+    public function threads()
+    {
+        return $this->hasMany(Thread::class)->latest();
     }
 }

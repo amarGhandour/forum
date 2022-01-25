@@ -7,6 +7,7 @@ use App\Http\Requests\ThreadStoreRequest;
 use App\Models\Category;
 use App\Models\Thread;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ThreadsController extends Controller
 {
@@ -26,8 +27,8 @@ class ThreadsController extends Controller
 
     public function store(ThreadStoreRequest $request)
     {
-        $thread = Thread::create(
-            $request->validated() + ['user_id' => auth()->id()]
+        $thread = Auth::user()->threads()->create(
+            $request->validated(),
         );
 
         return redirect($thread->path())->with('success', 'Thread has been created.');
@@ -78,13 +79,12 @@ class ThreadsController extends Controller
 
     public function getThreads(ThreadsFilter $filters, Category $category)
     {
-        $threads = Thread::with('category')->latest()->filter($filters);
+        $threads = Thread::latest()->filter($filters);
 
         if ($category->exists) {
             $threads->where('category_id', $category->id);
         }
 
-        $threads = $threads->simplePaginate(10);
-        return $threads;
+        return $threads->simplePaginate(10);
     }
 }

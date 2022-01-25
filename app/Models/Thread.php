@@ -14,10 +14,15 @@ class Thread extends Model
 
     protected $with = ['replies', 'category'];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function path()
     {
 
-        return "/threads/{$this->category->slug}/$this->id";
+        return "/threads/{$this->category->slug}/$this->slug";
     }
 
     public function replies()

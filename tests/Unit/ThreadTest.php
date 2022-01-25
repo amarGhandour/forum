@@ -61,6 +61,6 @@ class ThreadTest extends TestCase
             'category_id' => $category->id
         ]);
 
-        $this->assertEquals("/threads/$category->slug/$thread->id", $thread->path());
+        $this->assertEquals("/threads/$category->slug/$thread->slug", $thread->path());
     }
 }

@@ -15,6 +15,7 @@ class CreateThreadTest extends TestCase
 
     public function test_an_authenticated_user_can_create_new_thread()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $category = Category::factory()->create();
 

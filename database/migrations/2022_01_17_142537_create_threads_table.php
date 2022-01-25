@@ -17,6 +17,7 @@ class CreateThreadsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('body');
+            $table->string('slug');
             $table->foreignId('user_id');
             $table->foreignId('category_id');
             $table->timestamps();

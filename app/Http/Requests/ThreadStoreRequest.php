@@ -27,7 +27,8 @@ class ThreadStoreRequest extends FormRequest
         return [
             'title' => ['required'],
             'body' => ['required'],
-            'category_id' => ['required', Rule::exists('categories', 'id')]
+            'category_id' => ['required', Rule::exists('categories', 'id')],
+            'slug' => ['required', Rule::unique('threads', 'slug')],
         ];
     }
 }

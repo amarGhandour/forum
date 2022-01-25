@@ -20,6 +20,7 @@ class ThreadFactory extends Factory
             'body' => $this->faker->paragraph(),
             'user_id' => User::factory(),
             'category_id' => Category::factory(),
+            'slug' => $this->faker->slug(),
         ];
     }
 }
